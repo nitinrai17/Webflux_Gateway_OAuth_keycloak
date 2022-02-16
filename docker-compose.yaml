@@ -1,0 +1,75 @@
+version: '3.8'
+services:
+  #keycloak   
+  keycloak:
+    image: jboss/keycloak:15.0.0
+    container_name: keycloak
+    ports:
+      - 8080:8080
+    volumes:
+      - ./infra/keycloak/realm-test.json:/tmp/realm-test.json  
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_VENDOR=postgres
+      - DB_ADDR=postgres
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=keycloak
+      - KEYCLOAK_IMPORT=/tmp/realm-test.json
+    command: ["-Dkeycloak.profile.feature.upload_scripts=enabled"]
+    depends_on:
+      - postgres
+      
+  #postgres DB
+  postgres:
+    image: postgres:13.5-alpine
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./infra/postgres:/docker-entrypoint-initdb.d
+  
+  #userinfo
+  userinfo:
+    image: nitinrai17/userinfo
+    container_name: userinfo
+    build: 
+        dockerfile: Dockerfile
+        context: ./UserInfo
+    expose:
+     - 8083
+    ports:
+     - 8083:8083
+    environment:
+     - KEYCLOAK_URL=http://keycloak:8080/
+     - KEYCLOAK_REALM=test
+    depends_on:
+     - keycloak
+
+  #gatewayapplication
+  gatewayapplication:
+    image: nitinrai17/gatewayapplication
+    container_name: gatewayapplication
+    build: 
+        dockerfile: Dockerfile
+        context: ./GatewayApplication
+    expose:
+     - 8008
+    ports:
+     - 8008:8008
+    environment:
+     - KEYCLOAK_URL=http://keycloak:8080
+     - KEYCLOAK_REALM=test
+     - SPRING_CLOUD_GATEWAY_ROUTES[0]_URI=http://userinfo:8083
+     - SPRING_CLOUD_GATEWAY_ROUTES[0]_ID=userinfo-route 
+     - SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES=Path=/api/**
+    depends_on:
+     - keycloak, userinfo 
+  
+volumes:
+  postgres:
