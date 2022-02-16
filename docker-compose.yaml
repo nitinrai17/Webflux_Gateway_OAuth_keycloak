@@ -69,7 +69,7 @@ services:
      - SPRING_CLOUD_GATEWAY_ROUTES[0]_ID=userinfo-route 
      - SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES=Path=/api/**
     depends_on:
-     - keycloak, userinfo 
+     - userinfo 
   
 volumes:
   postgres:
