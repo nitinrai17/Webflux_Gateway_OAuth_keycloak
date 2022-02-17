@@ -3,7 +3,7 @@ In this project, we have gateway to route the request to specific microservice w
 
 ## Overview Diagram 
 
-<img src="Images/Overview_diagram2.png">
+<img src="images/Overview_diagram2.png">
 
 <br/>
 
@@ -27,48 +27,48 @@ In this project, we have gateway to route the request to specific microservice w
  * password:password
 
 <br/>
-<img src="Images/get_Token.gif">
+<img src="images/get_Token.gif">
 <br/>
 <br/>
 
 *get all the user info*
 <br/>
-<img src="Images/get_all_user_info.gif">
+<img src="images/get_all_user_info.gif">
 <br/>
 
 <br/>
 
 *get user info*
 <br/>
-<img src="Images/get_one_user_info.gif">
+<img src="images/get_one_user_info.gif">
 <br/>
 
 <br/>
 
 *create user info*
 <br/>
-<img src="Images/create_user_info.gif">
+<img src="images/create_user_info.gif">
 <br/>
 
 <br/>
 
 *update the user info*
 <br/>
-<img src="Images/update_user_info.gif">
+<img src="images/update_user_info.gif">
 <br/>
 
 <br/>
 
 *delete user info*
 <br/>
-<img src="Images/delete_user_info.gif">
+<img src="images/delete_user_info.gif">
 <br/>
 
 <br/>
 
 *UnAuthorized Token*
 <br/>
-<img src="Images/Unauthorized_token.gif">
+<img src="images/Unauthorized_token.gif">
 <br/>
 
 <br/>
